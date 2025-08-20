@@ -27,3 +27,5 @@ export type TSubject =
   | 'Client'
   | 'Provider'
   | 'ProviderProfile'
+  | 'Payment'
+  | 'Invoice'

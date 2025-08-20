@@ -3,14 +3,14 @@ import { Inject, Injectable } from '@nestjs/common'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
 } from '@domain/repositories/appointment.repository.interface'
 
 @Injectable()
 export class DeleteAppointmentUseCase {
   constructor(
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
   ) {}

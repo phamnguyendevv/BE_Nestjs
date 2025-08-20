@@ -1,11 +1,12 @@
-import { AppointmentEntity } from "./appointment.entity"
-import { PaymentEntity } from "./payment.entity"
+import { AppointmentEntity } from './appointment.entity'
+import { PaymentEntity } from './payment.entity'
 
 export enum OrderStatusEnum {
   Pending = 1,
   Completed = 2,
   Failed = 3,
   Refunded = 4,
+  RefundPending = 5,
 }
 
 export class OrderEntity {

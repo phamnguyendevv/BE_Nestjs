@@ -2,11 +2,13 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { DataSource } from 'typeorm'
 
+import { NotificationTypeEnum } from '@domain/entities/notification.entity'
 import { UserRoleEnum } from '@domain/entities/role.entity'
 import {
   ProviderStatusEnum,
   UserStatusEnum,
 } from '@domain/entities/status.entity'
+import { Admin, UserEntity } from '@domain/entities/user.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   IProviderProfileRepositoryInterface,
@@ -20,6 +22,8 @@ import {
   BCRYPT_SERVICE,
   IBcryptService,
 } from '@domain/services/bcrypt.interface'
+
+import { CreateNotificationUseCase } from '@use-cases/notification/create-notification.use-case'
 
 import { RegisterProviderDto } from '@adapters/controllers/users/dto/create-provider.dto'
 
@@ -36,11 +40,26 @@ export class CreateProviderUseCase {
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
     private readonly dataSource: DataSource,
+
+    private readonly createNotificationUseCase: CreateNotificationUseCase,
   ) {}
 
   async execute(providerProfile: RegisterProviderDto): Promise<boolean> {
     await this.checkUserExistence(providerProfile.email)
-    await this.createProviderWithProfile(providerProfile)
+    const user = await this.createProviderWithProfile(providerProfile)
+    // await this.createNotificationUseCase.execute({
+    //   senderId: user.id,
+    //   receiverId: Admin.Id,
+    //   title: 'Provider Created',
+    //   message: `Provider ${user.email} đã được tạo thành công`,
+    //   type: NotificationTypeEnum.ProviderRegistered,
+    //   data: {
+    //     email: user.email,
+    //     username: user.username,
+    //     phone: user.phone,
+    //   },
+    // })
+
     return true
   }
 
@@ -57,12 +76,13 @@ export class CreateProviderUseCase {
 
   private async createProviderWithProfile(
     providerProfile: RegisterProviderDto,
-  ): Promise<void> {
+  ): Promise<UserEntity> {
     const passwordMatches = await this.bcryptService.hash(
       providerProfile.password,
     )
+    let user: UserEntity
     await this.dataSource.transaction(async (manager) => {
-      const user = await this.userRepository.createUser(
+      user = await this.userRepository.createUser(
         {
           email: providerProfile.email,
           password: passwordMatches,
@@ -87,5 +107,7 @@ export class CreateProviderUseCase {
         manager,
       )
     })
+
+    return user!
   }
 }

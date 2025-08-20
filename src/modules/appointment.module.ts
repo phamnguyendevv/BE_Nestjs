@@ -16,6 +16,7 @@ import { GetDetailAppointmentUseCase } from '@use-cases/appointments/get-detali-
 import { GetListAppointmentByClientUseCase } from '@use-cases/appointments/get-list-appointment-by-client.use-case'
 import { GetListAppointmentUseCase } from '@use-cases/appointments/get-list-appointment.use-case'
 import { UpdateAppointmentUseCase } from '@use-cases/appointments/update-appointment.use-case'
+import { CreateNotificationUseCase } from '@use-cases/notification/create-notification.use-case'
 
 import { AppointmentsController } from '@adapters/controllers/appointments/appointment.controller'
 
@@ -33,6 +34,7 @@ import { BcryptModule } from '@infrastructure/services/bcrypt/bcrypt.module'
 import { NodeMailerService } from '@infrastructure/services/mailer/mailer.service'
 import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
 
+import { NotificationModule } from './notification.module'
 import { PromotionsModule } from './promotion.module'
 import { ServicesModule } from './service.module'
 import { UsersModule } from './user.module'
@@ -48,6 +50,7 @@ import { UsersModule } from './user.module'
     UsersModule,
     ServicesModule,
     PromotionsModule,
+    NotificationModule,
   ],
   controllers: [AppointmentsController],
   providers: [
@@ -78,6 +81,7 @@ import { UsersModule } from './user.module'
     UpdateAppointmentUseCase,
     DeleteAppointmentUseCase,
     GetListAppointmentByClientUseCase,
+    CreateNotificationUseCase,
   ],
 })
 export class AppointmentsModule {}

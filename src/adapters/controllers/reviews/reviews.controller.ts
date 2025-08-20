@@ -28,6 +28,7 @@ import { CheckPolicies } from '../common/decorators/check-policies.decorator'
 import { ApiResponseType } from '../common/decorators/swagger-response.decorator'
 import { User } from '../common/decorators/user.decorator'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
+import { PoliciesGuard } from '../common/guards/policies.guard'
 import { CreateReviewDto } from './dto/create-review.dto'
 import { GetListReviewsDto } from './dto/get-list-reviews.dto'
 import { UpdateReviewDto } from './dto/update-review.dto'
@@ -51,7 +52,7 @@ import {
   GetDetailReviewPresenter,
   CreateReviewPresenter,
 )
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PoliciesGuard)
 export class ReviewsController {
   constructor(
     private readonly getReviewsUseCase: GetListReviewUseCase,
@@ -133,46 +134,4 @@ export class ReviewsController {
 
     return isDeleted
   }
-
-  // @Get('/users/reviews/service/:serviceId')
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiOperation({
-  //   summary: 'Get reviews for a service',
-  //   description: 'Retrieve reviews for a specific service',
-  // })
-  // @ApiResponseType(GetListReviewsPresenter, true)
-  // async getReviewsByService(
-  //   @Param('serviceId', ParseIntPipe) serviceId: number,
-  //   @Query() queryParams: GetListReviewsDto,
-  // ) {
-  //   const serviceQueryParams = { ...queryParams, serviceId }
-  //   const { data, pagination } =
-  //     await this.getReviewsUseCase.execute(serviceQueryParams)
-  //   return new GetListReviewsPresenter(
-  //     data.map((review) => new ReviewsPresenter(review)),
-  //     pagination,
-  //   )
-  // }
-
-  // @Get('/users/reviews/provider/:providerId')
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiOperation({
-  //   summary: 'Get public reviews for a provider',
-  //   description: 'Retrieve public reviews for a specific provider',
-  // })
-  // @ApiResponseType(GetListReviewsPresenter, true)
-  // async getPublicReviewsByProvider(
-  //   @Param('providerId', ParseIntPipe) providerId: number,
-  //   @Query() queryParams: GetListReviewsDto,
-  // ) {
-  //   const providerQueryParams = { ...queryParams, providerId }
-  //   const { data, pagination } =
-  //     await this.getReviewsUseCase.execute(providerQueryParams)
-  //   return new GetListReviewsPresenter(
-  //     data.map((review) => new ReviewsPresenter(review)),
-  //     pagination,
-  //   )
-  // }
 }

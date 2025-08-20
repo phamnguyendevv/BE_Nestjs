@@ -99,8 +99,8 @@ export class Appointment {
   @Column({ type: 'boolean', default: true, name: 'send_reminders' })
   public sendReminders!: boolean
 
-  @Column({ type: 'boolean', default: false, name: 'is_delete' })
-  public isDelete!: boolean
+  @Column({ type: 'boolean', default: false, name: 'is_deleted' })
+  public isDeleted!: boolean
 
   @CreateDateColumn({ name: 'created_at' })
   public readonly createdAt!: Date

@@ -104,8 +104,6 @@ export class ServiceRepository implements IServiceRepositoryInterface {
     const {
       id,
       search,
-      size = 10,
-      page = 1,
       minPrice,
       maxPrice,
       description,
@@ -113,6 +111,8 @@ export class ServiceRepository implements IServiceRepositoryInterface {
       providerId,
       categoryId,
     } = queryParams
+    const page = queryParams.page || 1
+    const size = queryParams.size || 100
 
     const queryBuilder = this.serviceRepository
       .createQueryBuilder('service')

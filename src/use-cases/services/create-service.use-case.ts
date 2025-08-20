@@ -27,12 +27,11 @@ export class CreateServiceUseCase {
   async execute(
     queryParams: Partial<ServiceEntity>,
     userId: number,
-  ): Promise<boolean> {
+  ): Promise<ServiceEntity> {
     await this.checkCategoryExistence(queryParams)
     queryParams.providerId = userId
 
-    await this.serviceRepository.createService(queryParams)
-    return true
+    return await this.serviceRepository.createService(queryParams)
   }
 
   private async checkCategoryExistence(queryParams: Partial<ServiceEntity>) {

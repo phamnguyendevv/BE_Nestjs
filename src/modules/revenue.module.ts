@@ -12,6 +12,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { GetDailyRevenueUseCase } from "@use-cases/revenue/get-daily-revenue.use-case";
 import { GetMonthlyRevenueUseCase } from "@use-cases/revenue/get-monthly-revenue.use-case";
 import { GetOverviewRevenueUseCase } from "@use-cases/revenue/get-overview-revenue.use-case";
+import { GetProviderRevenueUseCase } from "@use-cases/revenue/get-provider-revenue.use-case";
 import { GetRevenueByServiceUseCase } from "@use-cases/revenue/get-revenue-by-service.use-case";
 
 @Module ({
@@ -33,7 +34,8 @@ import { GetRevenueByServiceUseCase } from "@use-cases/revenue/get-revenue-by-se
       GetOverviewRevenueUseCase,
       GetMonthlyRevenueUseCase,
       GetDailyRevenueUseCase,
-      GetRevenueByServiceUseCase
+      GetRevenueByServiceUseCase,
+      GetProviderRevenueUseCase
     ],
 
   })

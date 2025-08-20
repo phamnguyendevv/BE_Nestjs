@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -20,8 +21,11 @@ export class Notification {
   })
   public readonly id!: number
 
-  @Column({ type: 'int', name: 'user_id' })
-  public userId!: number
+  @Column({ type: 'int', name: 'sender_id', nullable: true })
+  public senderId?: number
+
+  @Column({ type: 'int', name: 'receiver_id' })
+  public receiverId!: number
 
   @Column({
     type: 'smallint',
@@ -44,6 +48,9 @@ export class Notification {
   @Column({ type: 'timestamp', nullable: true, name: 'read_at' })
   public readAt!: Date
 
+  @DeleteDateColumn({ name: 'deleted_at' })
+  public isDeleted!: boolean
+
   @CreateDateColumn({ name: 'created_at' })
   public readonly createdAt!: Date
 
@@ -51,7 +58,11 @@ export class Notification {
   public readonly updatedAt!: Date
 
   // Relations
-  @ManyToOne(() => User, (user) => user.notifications)
-  @JoinColumn({ name: 'user_id' })
-  public user!: User
+  @ManyToOne(() => User, (user) => user.sentNotifications)
+  @JoinColumn({ name: 'sender_id' })
+  public sender?: User
+
+  @ManyToOne(() => User, (user) => user.receivedNotifications)
+  @JoinColumn({ name: 'receiver_id' })
+  public receiver!: User
 }

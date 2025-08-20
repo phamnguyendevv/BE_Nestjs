@@ -6,7 +6,7 @@ import { IPaginationParams } from '@domain/entities/search.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
   ISearchAppointmentsParams,
 } from '@domain/repositories/appointment.repository.interface'
 import {
@@ -18,7 +18,7 @@ import {
 export class GetListAppointmentByClientUseCase {
   constructor(
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
 
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,

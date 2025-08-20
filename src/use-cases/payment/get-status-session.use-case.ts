@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-
-import { IStripeService, STRIPE_SERVICE } from '@domain/services/stripe.interface'
+import {
+  IStripeService,
+  STRIPE_SERVICE,
+} from '@domain/services/stripe.interface'
 
 @Injectable()
 export class GetStatusSessionUseCase {
@@ -11,8 +13,8 @@ export class GetStatusSessionUseCase {
   ) {}
   async execute(sessionId: string) {
     const session = await this.stripeService.getSession(sessionId)
-    if(session.payment_status ===   'paid') {
-      return true 
+    if (session.payment_status === 'paid') {
+      return true
     }
     return false
   }

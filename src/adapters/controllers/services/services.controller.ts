@@ -13,6 +13,8 @@ import {
 import {
   ApiBearerAuth,
   ApiExtraModels,
+  ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -25,7 +27,10 @@ import { GetListServiceUseCase } from '@use-cases/services/get-list-category.use
 import { UpdateServiceUseCase } from '@use-cases/services/update-service.use-case'
 
 import { CheckPolicies } from '../common/decorators/check-policies.decorator'
-import { ApiResponseType } from '../common/decorators/swagger-response.decorator'
+import {
+  ApiCreatedResponseType,
+  ApiResponseType,
+} from '../common/decorators/swagger-response.decorator'
 import { User } from '../common/decorators/user.decorator'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
 import { PoliciesGuard } from '../common/guards/policies.guard'
@@ -103,16 +108,23 @@ export class ServicesController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new service' })
   @CheckPolicies({ action: 'create', subject: 'Service' })
+  @ApiCreatedResponseType(CreateServicePresenter, false)
   async createService(
     @Body() createServiceDto: CreateServiceDto,
     @User('id') userId: number,
   ) {
-    return await this.createServiceUseCase.execute(createServiceDto, userId)
+    const service = await this.createServiceUseCase.execute(
+      createServiceDto,
+      userId,
+    )
+    return new CreateServicePresenter(service)
   }
 
   @Put('/provider/services/:id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an existing service' })
+  @ApiOkResponse({ description: 'Service updated successfully' })
+  @ApiNotFoundResponse({ description: 'Service not found' })
   @CheckPolicies({ action: 'update', subject: 'Service' })
   async updateService(
     @Body() updateServiceData: UpdateServiceDto,

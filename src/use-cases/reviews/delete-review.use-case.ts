@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
-  IReviewRepository,
+  IReviewRepositoryInterface,
   REVIEW_REPOSITORY,
 } from '@domain/repositories/review.repository.interface'
 
@@ -10,7 +10,7 @@ import {
 export class DeleteReviewUseCase {
   constructor(
     @Inject(REVIEW_REPOSITORY)
-    private readonly reviewRepository: IReviewRepository,
+    private readonly reviewRepository: IReviewRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
   ) {}

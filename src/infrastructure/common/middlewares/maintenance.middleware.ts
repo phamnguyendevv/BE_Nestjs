@@ -7,8 +7,7 @@ import { IFormatExceptionResponse } from '@domain/exceptions/exceptions.interfac
 @Injectable()
 export class MaintenanceMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    const isMaintenanceMode =
-      process.env.MAINTENANCE_MODE?.toString() === 'true'
+    const isMaintenanceMode = false
 
     if (isMaintenanceMode) {
       const responseData: IFormatExceptionResponse = {

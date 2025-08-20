@@ -102,11 +102,11 @@ export class CategoriesController {
     @Body() updateCategoryData: UpdateCategoryDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    const updatedCategory = await this.updateCategoryUseCase.execute(
+    const isUpdated = await this.updateCategoryUseCase.execute(
       { id },
       updateCategoryData,
     )
-    return updatedCategory
+    return isUpdated
   }
 
   @Delete('/admin/categories/:id')

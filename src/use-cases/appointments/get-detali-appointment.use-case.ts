@@ -6,7 +6,7 @@ import { UserEntity } from '@domain/entities/user.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
 } from '@domain/repositories/appointment.repository.interface'
 import {
   IUserRepositoryInterface,
@@ -17,7 +17,7 @@ import {
 export class GetDetailAppointmentUseCase {
   constructor(
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
     @Inject(USER_REPOSITORY)

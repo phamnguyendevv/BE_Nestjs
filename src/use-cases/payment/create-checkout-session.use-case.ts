@@ -1,18 +1,18 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
 import { OrderStatusEnum } from '@domain/entities/order.entity'
 import { PaymentStatusEnum } from '@domain/entities/payment.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
 } from '@domain/repositories/appointment.repository.interface'
 import {
-  IOrderRepository,
+  IOrderRepositoryInterface,
   ORDER_REPOSITORY,
 } from '@domain/repositories/order.repository.interface'
 import {
-  IPaymentRepository,
+  IPaymentRepositoryInterface,
   PAYMENT_REPOSITORY,
 } from '@domain/repositories/payment.repository.interface'
 import {
@@ -35,13 +35,13 @@ export class CreateCheckoutSessionUseCase {
     private readonly userRepository: IUserRepositoryInterface,
 
     @Inject(PAYMENT_REPOSITORY)
-    private readonly paymentRepository: IPaymentRepository,
+    private readonly paymentRepository: IPaymentRepositoryInterface,
 
     @Inject(ORDER_REPOSITORY)
-    private readonly orderRepository: IOrderRepository,
+    private readonly orderRepository: IOrderRepositoryInterface,
 
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
   ) {}
@@ -90,7 +90,7 @@ export class CreateCheckoutSessionUseCase {
       note: '',
     })
 
-    const payment = await this.paymentRepository.createPayment({
+    await this.paymentRepository.createPayment({
       orderId: order.id,
       stripeCustomerId: createCustomer.id,
       amount: totalAmount,

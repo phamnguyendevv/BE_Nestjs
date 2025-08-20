@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PromotionEntity } from '@domain/entities/promotion.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
-  IPromotionRepository,
+  IPromotionRepositoryInterface,
   PROMOTION_REPOSITORY,
 } from '@domain/repositories/promotion.repository.interface'
 
@@ -11,7 +11,7 @@ import {
 export class CreatePromotionUseCase {
   constructor(
     @Inject(PROMOTION_REPOSITORY)
-    private readonly promotionRepository: IPromotionRepository,
+    private readonly promotionRepository: IPromotionRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
   ) {}

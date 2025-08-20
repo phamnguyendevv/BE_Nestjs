@@ -6,7 +6,7 @@ import { Repository } from 'typeorm'
 import { ReviewEntity } from '@domain/entities/review.entity'
 import { IPaginationParams } from '@domain/entities/search.entity'
 import {
-  IReviewRepository,
+  IReviewRepositoryInterface,
   ISearchReviewParams,
 } from '@domain/repositories/review.repository.interface'
 
@@ -24,7 +24,7 @@ const DEFAULT_SELECT_FIELDS: (keyof Review)[] = [
 ]
 
 @Injectable()
-export class ReviewRepository implements IReviewRepository {
+export class ReviewRepository implements IReviewRepositoryInterface {
   constructor(
     @InjectRepository(Review)
     private readonly reviewRepository: Repository<Review>,

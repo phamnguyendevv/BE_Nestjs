@@ -30,7 +30,7 @@ export interface ISearchAppointmentsParams {
 }
 
 export const APPOINTMENT_REPOSITORY = 'APPOINTMENT_REPOSITORY_INTERFACE'
-export interface IAppointmentRepository {
+export interface IAppointmentRepositoryInterface {
   getAppointmentById(id: number): Promise<GetListAppointmentPresenter | null>
   createAppointment(
     appointment: Partial<AppointmentEntity>,

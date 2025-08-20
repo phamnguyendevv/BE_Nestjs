@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
-  IOrderRepository,
+  IOrderRepositoryInterface,
   ISearchOrderParams,
   ORDER_REPOSITORY,
 } from '@domain/repositories/order.repository.interface'
@@ -11,7 +11,7 @@ import {
 export class GetOverviewRevenueUseCase {
   constructor(
     @Inject(ORDER_REPOSITORY)
-    private readonly orderRepository: IOrderRepository,
+    private readonly orderRepository: IOrderRepositoryInterface,
 
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,

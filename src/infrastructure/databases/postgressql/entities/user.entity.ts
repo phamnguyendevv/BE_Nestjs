@@ -114,8 +114,12 @@ export class User implements UserEntity {
   @OneToMany(() => FavoriteService, (favorite) => favorite.client)
   public favoriteServices!: FavoriteService[]
 
-  @OneToMany(() => Notification, (notification) => notification.user)
-  public notifications!: Notification[]
+  @OneToMany(() => Notification, (notification) => notification.receiver)
+  public receivedNotifications!: Notification[]
+
+  // Người gửi thông báo
+  @OneToMany(() => Notification, (notification) => notification.sender)
+  public sentNotifications!: Notification[]
 
   @OneToMany(() => ChatConversation, (conversation) => conversation.client)
   public clientConversations!: ChatConversation[]

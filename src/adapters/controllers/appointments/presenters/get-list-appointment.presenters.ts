@@ -67,9 +67,6 @@ export class GetListAppointmentPresenter {
   sendReminders?: boolean
 
   @ApiProperty()
-  isDelete!: boolean
-
-  @ApiProperty()
   service!: {
     id: number
     name: string
@@ -122,7 +119,6 @@ export class GetListAppointmentPresenter {
     this.totalAmount = partial.totalAmount
     this.status = partial.status
     this.reminderSentAt = partial.reminderSentAt
-    this.isDelete = partial.isDelete
     this.service = {
       id: partial.service?.id ?? 0,
       name: partial.service?.name ?? '',

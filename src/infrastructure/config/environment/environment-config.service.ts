@@ -60,6 +60,14 @@ export class EnvironmentConfigService
     return this.configService.get<string>('JWT_REFRESH_SECRET') || ''
   }
 
+  getMaintenanceMode(): boolean {
+    return this.configService.get<boolean>('MAINTENANCE_MODE') || false
+  }
+
+  getMaintenanceMessage(): string | undefined {
+    return this.configService.get<string>('MAINTENANCE_MESSAGE')
+  }
+
   getJwtRefreshExpirationTime(): string {
     return this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME') || ''
   }

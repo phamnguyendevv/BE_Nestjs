@@ -8,7 +8,10 @@ import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
 
 import { AppointmentsModule } from '@modules/appointment.module'
 import { CategoriesModule } from '@modules/category.module'
+import { InvoiceModule } from '@modules/invoice.module'
+import { NotificationModule } from '@modules/notification.module'
 import { PaymentsModule } from '@modules/payment.module'
+import { RevenueModule } from '@modules/revenue.module'
 import { ReviewsModule } from '@modules/review.module'
 import { ServicesModule } from '@modules/service.module'
 import { UsersModule } from '@modules/user.module'
@@ -25,7 +28,6 @@ import { LoggerModule } from './infrastructure/logger/logger.module'
 import { AuthModule } from './modules/auth.module'
 import { HealthModule } from './modules/health.module'
 import { PromotionsModule } from './modules/promotion.module'
-import { RevenueModule } from '@modules/revenue.module'
 
 @Module({
   imports: [
@@ -41,7 +43,6 @@ import { RevenueModule } from '@modules/revenue.module'
     TypeOrmModule.forFeature([User]),
     HealthModule,
     AuthModule,
-    // TasksModule,
     UsersModule,
     CategoriesModule,
     ServicesModule,
@@ -50,7 +51,9 @@ import { RevenueModule } from '@modules/revenue.module'
     ReviewsModule,
     PaymentsModule,
     StripeModule,
-    RevenueModule
+    NotificationModule,
+    RevenueModule,
+    InvoiceModule,
   ],
   providers: [UserRepository, JwtStrategy, JwtRefreshStrategy],
 })

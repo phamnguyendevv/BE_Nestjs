@@ -23,7 +23,7 @@ export interface ISearchPromotionParams {
 }
 
 export const PROMOTION_REPOSITORY = 'PROMOTION_REPOSITORY_INTERFACE'
-export interface IPromotionRepository {
+export interface IPromotionRepositoryInterface {
   createPromotion(entity: Partial<PromotionEntity>): Promise<PromotionEntity>
   getListPromotion(
     props: ISearchPromotionParams,

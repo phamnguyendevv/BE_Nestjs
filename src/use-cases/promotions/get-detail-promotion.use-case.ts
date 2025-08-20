@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PromotionEntity } from '@domain/entities/promotion.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
-  IPromotionRepository,
+  IPromotionRepositoryInterface,
   PROMOTION_REPOSITORY,
 } from '@domain/repositories/promotion.repository.interface'
 
@@ -11,13 +11,16 @@ import {
 export class GetPromotionUseCase {
   constructor(
     @Inject(PROMOTION_REPOSITORY)
-    private readonly promotionRepository: IPromotionRepository,
+    private readonly promotionRepository: IPromotionRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
   ) {}
 
   async execute(id: number, userId: number): Promise<PromotionEntity> {
-    const promotion = await this.promotionRepository.findOnePromotion({id, userId})
+    const promotion = await this.promotionRepository.findOnePromotion({
+      id,
+      userId,
+    })
 
     if (!promotion) {
       throw this.exceptionsService.notFoundException({
@@ -27,5 +30,4 @@ export class GetPromotionUseCase {
     }
     return promotion
   }
-
 }

@@ -41,10 +41,10 @@ export class Service {
   @Column({ type: 'int' })
   duration!: number
 
-  @Column({ type: 'text', nullable: true , name: 'image_url' })
+  @Column({ type: 'text', nullable: true, name: 'image_url' })
   imageUrl!: string
 
-  @Column({ type: 'text', nullable: true , name: 'image_public_id' })
+  @Column({ type: 'text', nullable: true, name: 'image_public_id' })
   imagePublicId!: string
 
   @Column({ type: 'boolean', default: true, name: 'is_active' })
@@ -55,10 +55,8 @@ export class Service {
 
   @UpdateDateColumn({ name: 'updated_at' })
   public readonly updatedAt!: Date
-
-
-  @Column({ type: 'boolean', default: false })
-  isDeleted!: boolean
+  @Column({ type: 'boolean', default: false, name: 'is_deleted' })
+  public isDeleted!: boolean
 
   // Relations
   @ManyToOne(() => User, (user) => user.services)

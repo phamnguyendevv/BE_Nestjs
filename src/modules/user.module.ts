@@ -6,6 +6,7 @@ import { PROVIDER_PROFILE_REPOSITORY } from '@domain/repositories/provider-profi
 import { USER_REPOSITORY } from '@domain/repositories/user.repository.interface'
 import { MAILER_SERVICE } from '@domain/services/mailer.interface'
 
+import { CreateNotificationUseCase } from '@use-cases/notification/create-notification.use-case'
 import { CreateProviderUseCase } from '@use-cases/provider/create-provider.use-case'
 import { GetListProviderUseCase } from '@use-cases/provider/get-list-provider.use-case'
 import { UpdateProviderUseCase } from '@use-cases/provider/update-provider.use-case'
@@ -27,6 +28,8 @@ import { MailerModule } from '@infrastructure/services/mailer/mailer.module'
 import { NodeMailerService } from '@infrastructure/services/mailer/mailer.service'
 import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
 
+import { NotificationModule } from './notification.module'
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, ProviderProfile]),
@@ -35,6 +38,7 @@ import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
     MailerModule,
     ExceptionsModule,
     StripeModule,
+    NotificationModule,
   ],
 
   controllers: [UsersController],
@@ -62,6 +66,7 @@ import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
     CreateProviderUseCase,
     UpdateProviderUseCase,
     GetListProviderUseCase,
+    CreateNotificationUseCase,
   ],
 })
 export class UsersModule {}

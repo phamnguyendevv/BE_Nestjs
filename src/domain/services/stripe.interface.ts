@@ -7,18 +7,16 @@ export interface IStripeService {
     amount: number
     currency: string
   }): Promise<{ clientSecret: string; paymentIntentId: string }>
-  getPaymentIntent(paymentIntentId: string): Promise<{
-    id: string
-    amount: number
-    currency: string
-    status: string
-    isRefunded: boolean
-    totalRefunded: number
-    refundDetails: Stripe.Refund[]
-  }>
-  createRefund(paymentIntentId: string, amount?: number): Promise<Stripe.Refund>
+  // getPaymentIntent(paymentIntentId: string): Promise<{
+  //   id: string
+  //   amount: number
+  //   currency: string
+  //   status: string
+  //   isRefunded: boolean
+  //   totalRefunded: number
+  //   refundDetails: Stripe.Refund[]
+  // }>
   constructEventFromPayload(payload: string, signature: string): Stripe.Event
-  getInvoice(invoiceId: string): Promise<Stripe.Invoice>
-  finalizeAndSendInvoice(invoiceId: string): Promise<Stripe.Invoice>
   getSession(sessionId: string): Promise<Stripe.Checkout.Session>
+  refundPayment(paymentIntentId: string): Promise<Stripe.Refund>
 }

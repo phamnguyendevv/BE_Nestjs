@@ -1,3 +1,5 @@
+import e from 'express'
+
 import { ProviderProfileEntity } from './provider-profile.entity'
 import { UserRoleEnum } from './role.entity'
 import { UserStatusEnum } from './status.entity'
@@ -30,4 +32,8 @@ export class UserWithProfileEntity extends UserEntity {
   public businessDescription?: string
   public bankAccountInfo?: object
   public commissionRate?: number
+}
+
+export enum Admin {
+  Id = 4,
 }

@@ -54,12 +54,12 @@ class EnvironmentVariables {
   @IsNotEmpty()
   DATABASE_SYNCHRONIZE!: boolean
 
-  @IsOptional()
-  @IsBooleanString()
-  MAINTENANCE_MODE?: string
+  @IsBoolean()
+  @IsNotEmpty()
+  MAINTENANCE_MODE!: boolean
 
-  @ValidateIf((env: EnvironmentVariables) => env.MAINTENANCE_MODE === 'true')
   @IsString()
+  @IsOptional()
   MAINTENANCE_MESSAGE?: string
 
   @IsString()

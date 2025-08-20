@@ -20,7 +20,7 @@ export class RedisService implements IRedisCacheService {
     try {
       const value = await this.redisClient.get(key)
       return value ? JSON.parse(value) : null
-    } catch (error) {
+    } catch {
       throw this.exceptionsService.internalServerErrorException({
         type: 'RedisGetError',
         message: `Failed to get value from cache for key: ${key}`,
@@ -31,7 +31,7 @@ export class RedisService implements IRedisCacheService {
     try {
       const ttls = ttl || 60
       await this.redisClient.set(key, JSON.stringify(value), 'EX', ttls)
-    } catch (error) {
+    } catch {
       throw this.exceptionsService.internalServerErrorException({
         type: 'RedisSetError',
         message: `Failed to set value in cache for key: ${key}`,
@@ -41,7 +41,7 @@ export class RedisService implements IRedisCacheService {
   async delValue(key: string): Promise<void> {
     try {
       await this.redisClient.del(key)
-    } catch (error) {
+    } catch {
       throw this.exceptionsService.internalServerErrorException({
         type: 'RedisDeleteError',
         message: `Failed to delete value from cache for key: ${key}`,

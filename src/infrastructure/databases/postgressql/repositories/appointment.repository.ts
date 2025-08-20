@@ -6,7 +6,7 @@ import { Repository } from 'typeorm'
 import { AppointmentEntity } from '@domain/entities/appointment.entity'
 import { IPaginationParams } from '@domain/entities/search.entity'
 import {
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
   ISearchAppointmentsParams,
 } from '@domain/repositories/appointment.repository.interface'
 
@@ -16,7 +16,7 @@ import { GetListAppointmentPresenter } from '@adapters/controllers/appointments/
 import { Appointment } from '../entities/appointment.entity'
 
 @Injectable()
-export class AppointmentRepository implements IAppointmentRepository {
+export class AppointmentRepository implements IAppointmentRepositoryInterface {
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
@@ -32,8 +32,8 @@ export class AppointmentRepository implements IAppointmentRepository {
       .leftJoinAndSelect('service.category', 'category')
       .leftJoinAndSelect('appointment.provider', 'provider')
       .where('appointment.id = :id', { id })
-      .andWhere('appointment.isDelete = :isDelete', {
-        isDelete: false,
+      .andWhere('appointment.isDeleted = :isDeleted', {
+        isDeleted: false,
       })
       .getOne()
 
@@ -62,7 +62,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   async deleteAppointment(id: number): Promise<boolean> {
     const deleteAppointment = await this.appointmentRepository.update(
       { id },
-      { isDelete: true },
+      { isDeleted: true },
     )
     if (deleteAppointment.affected === 0) return false
     return true

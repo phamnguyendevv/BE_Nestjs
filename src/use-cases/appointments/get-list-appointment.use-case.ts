@@ -4,7 +4,7 @@ import { AppointmentEntity } from '@domain/entities/appointment.entity'
 import { IPaginationParams } from '@domain/entities/search.entity'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
   ISearchAppointmentsParams,
 } from '@domain/repositories/appointment.repository.interface'
 
@@ -12,7 +12,7 @@ import {
 export class GetListAppointmentUseCase {
   constructor(
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
   ) {}
 
   async execute(queryParams: ISearchAppointmentsParams): Promise<{

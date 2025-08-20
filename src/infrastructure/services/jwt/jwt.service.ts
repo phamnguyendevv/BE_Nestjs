@@ -13,8 +13,12 @@ export class JwtService implements IJwtService {
   ) {}
 
   async checkToken(token: string) {
-    const decode =
-      await this.jwtServiceBase.verifyAsync<IJwtServicePayload>(token)
+    const decode = await this.jwtServiceBase.verifyAsync<IJwtServicePayload>(
+      token,
+      {
+        secret: this.environmentConfigService.getJwtSecret(),
+      },
+    )
     return decode
   }
 

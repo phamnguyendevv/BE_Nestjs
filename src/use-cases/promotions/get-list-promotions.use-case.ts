@@ -7,10 +7,10 @@ import { UserEntity } from '@domain/entities/user.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
 } from '@domain/repositories/appointment.repository.interface'
 import {
-  IPromotionRepository,
+  IPromotionRepositoryInterface,
   ISearchPromotionParams,
   PROMOTION_REPOSITORY,
 } from '@domain/repositories/promotion.repository.interface'
@@ -23,13 +23,13 @@ import {
 export class GetListPromotionsUseCase {
   constructor(
     @Inject(PROMOTION_REPOSITORY)
-    private readonly promotionRepository: IPromotionRepository,
+    private readonly promotionRepository: IPromotionRepositoryInterface,
 
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
 
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
 
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepositoryInterface,

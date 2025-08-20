@@ -36,7 +36,7 @@ export class Review {
   @Column({ type: 'text', nullable: true })
   public comment!: string
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: false, name: 'is_deleted' })
   public isDeleted!: boolean
 
   @CreateDateColumn({ name: 'created_at' })

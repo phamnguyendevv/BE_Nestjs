@@ -1,68 +1,59 @@
 import { ApiProperty } from '@nestjs/swagger'
 
 import { Type } from 'class-transformer'
-import {
-  IsDate,
-  IsEnum,
-  IsOptional,
-  IsString,
-} from 'class-validator'
+import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator'
 
 import { DiscountTypeEnum } from '@domain/entities/promotion.entity'
 
 export class UpdatePromotionDto {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   code?: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   description?: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsEnum(DiscountTypeEnum)
   discountType?: DiscountTypeEnum
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   discountValue?: number
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
   startDate?: Date
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
   endDate?: Date
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   usageLimit?: number
-
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   usedCount?: number
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   minAmount?: number
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   maxDiscount?: number
 
-
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   name?: string
-
-
 }

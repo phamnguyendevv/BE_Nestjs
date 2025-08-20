@@ -28,9 +28,11 @@ export class CaslAbilityFactory implements IAbilityFactory {
       can('read', 'Category')
       can('manage', 'Appointment', { providerId: user.id })
       can('manage', 'Service', { providerId: user.id })
+      can('manage', 'Payment')
       can('manage', 'Promotion', { providerId: user.id })
+      can('manage', 'Notification', { userId: user.id })
+      can('manage', 'Review')
     } else if (user.role === UserRoleEnum.Client) {
-      // Client can manage their own resources
       can(['read', 'create', 'update'], 'User', { id: user.id })
       cannot('update', 'User', ['role', 'status'])
       can('manage', 'Appointment', { clientId: user.id })
@@ -39,6 +41,7 @@ export class CaslAbilityFactory implements IAbilityFactory {
       can('read', 'Service', { providerId: user.id })
       can('read', 'Promotion', { userId: user.id })
       can('manage', 'Review', { clientId: user.id })
+      can('manage', 'Payment')
       can(['read', 'create', 'delete'], 'ServiceFavorite', {
         clientId: user.id,
       })

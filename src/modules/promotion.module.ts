@@ -22,9 +22,13 @@ import { AppointmentRepository } from '@infrastructure/databases/postgressql/rep
 import { PromotionRepository } from '@infrastructure/databases/postgressql/repositories/promotion.repository'
 import { UserRepository } from '@infrastructure/databases/postgressql/repositories/user.repository'
 import { ExceptionsService } from '@infrastructure/exceptions/exceptions.service'
+import { CaslModule } from '@infrastructure/services/casl/casl.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Promotion, User, Appointment])],
+  imports: [
+    TypeOrmModule.forFeature([Promotion, User, Appointment]),
+    CaslModule,
+  ],
   controllers: [PromotionsController],
   providers: [
     {

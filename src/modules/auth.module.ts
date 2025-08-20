@@ -31,6 +31,8 @@ import { JwtModule } from '@infrastructure/services/jwt/jwt.module'
 import { NodeMailerService } from '@infrastructure/services/mailer/mailer.service'
 import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
 
+import { NotificationModule } from '@modules/notification.module'
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, ProviderProfile]),
@@ -40,6 +42,7 @@ import { StripeModule } from '@infrastructure/services/stripe/stripe.module'
     ExceptionsModule,
     MailerModule,
     StripeModule,
+    NotificationModule,
   ],
   controllers: [AuthController],
   providers: [

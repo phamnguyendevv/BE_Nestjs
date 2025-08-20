@@ -35,6 +35,7 @@ import { CheckPolicies } from '../common/decorators/check-policies.decorator'
 import { ApiResponseType } from '../common/decorators/swagger-response.decorator'
 import { User } from '../common/decorators/user.decorator'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
+import { PoliciesGuard } from '../common/guards/policies.guard'
 
 @Controller()
 @ApiTags('Promotions')
@@ -44,7 +45,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
 })
 @ApiResponse({ status: 500, description: 'Internal error' })
 @ApiResponse({ status: 403, description: 'Forbidden access' })
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PoliciesGuard)
 export class PromotionsController {
   constructor(
     private readonly createPromotionUseCase: CreatePromotionUseCase,
@@ -76,12 +77,12 @@ export class PromotionsController {
   }
 
   @Get('/provider/promotions')
+  @ApiExtraModels(GetListPromotionsPresenter)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all promotions',
     description: 'Retrieve a list of all promotions',
   })
-  @ApiExtraModels(GetListPromotionsPresenter)
   @ApiResponseType(GetListPromotionsPresenter, true)
   @CheckPolicies({ action: 'read', subject: 'Promotion' })
   async findAll(
@@ -141,13 +142,14 @@ export class PromotionsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePromotionDto: UpdatePromotionDto,
   ) {
-    return await this.updatePromotionUseCase.execute(
+    const isUpdated = await this.updatePromotionUseCase.execute(
       {
         id,
         userId,
       },
       updatePromotionDto,
     )
+    return isUpdated
   }
 
   @Delete('/provider/promotions/:id')

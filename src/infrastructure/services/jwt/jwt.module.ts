@@ -6,12 +6,24 @@ import {
 
 import { JWT_SERVICE } from '@domain/services/jwt.interface'
 
-import { EnvironmentConfigModule } from '@infrastructure/config/environment/environment-config.module'
+import {
+  EnvironmentConfigModule,
+  EnvironmentConfigService,
+} from '@infrastructure/config/environment/environment-config.module'
 
 import { JwtService } from './jwt.service'
 
 @Module({
-  imports: [JwtBaseModule.register({}), EnvironmentConfigModule],
+  imports: [
+    JwtBaseModule.registerAsync({
+      imports: [EnvironmentConfigModule],
+      inject: [EnvironmentConfigService],
+      useFactory: (env: EnvironmentConfigService) => ({
+        secret: env.getJwtSecret(),
+      }),
+    }),
+    EnvironmentConfigModule,
+  ],
   providers: [
     JwtBaseService,
     {

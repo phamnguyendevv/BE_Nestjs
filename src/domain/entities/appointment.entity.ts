@@ -29,7 +29,7 @@ export class AppointmentEntity {
   public providerAmount!: number
   public reminderSentAt?: Date
   public reminderSent?: boolean
-  public isDelete!: boolean
+  public isDeleted!: boolean
   public service?: ServiceEntity
   public provider?: UserWithProfileEntity
   public client?: UserEntity

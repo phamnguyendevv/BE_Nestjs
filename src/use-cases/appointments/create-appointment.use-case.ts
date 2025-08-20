@@ -4,6 +4,7 @@ import {
   AppointmentEntity,
   AppointmentStatusEnum,
 } from '@domain/entities/appointment.entity'
+import { NotificationTypeEnum } from '@domain/entities/notification.entity'
 import { PromotionEntity } from '@domain/entities/promotion.entity'
 import { UserRoleEnum } from '@domain/entities/role.entity'
 import { ServiceEntity } from '@domain/entities/service.entity'
@@ -11,10 +12,10 @@ import { UserEntity } from '@domain/entities/user.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   APPOINTMENT_REPOSITORY,
-  IAppointmentRepository,
+  IAppointmentRepositoryInterface,
 } from '@domain/repositories/appointment.repository.interface'
 import {
-  IPromotionRepository,
+  IPromotionRepositoryInterface,
   PROMOTION_REPOSITORY,
 } from '@domain/repositories/promotion.repository.interface'
 import {
@@ -27,6 +28,8 @@ import {
 } from '@domain/repositories/user.repository.interface'
 import { MAILER_SERVICE } from '@domain/services/mailer.interface'
 
+import { CreateNotificationUseCase } from '@use-cases/notification/create-notification.use-case'
+
 import { NodeMailerService } from '@infrastructure/services/mailer/mailer.service'
 
 const COMMISSION_AMOUNT = 10
@@ -38,17 +41,19 @@ const DUPLICATE_BOOKING_WINDOW_MINUTES = 5
 export class CreateAppointmentUseCase {
   constructor(
     @Inject(APPOINTMENT_REPOSITORY)
-    private readonly appointmentRepository: IAppointmentRepository,
+    private readonly appointmentRepository: IAppointmentRepositoryInterface,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepositoryInterface,
     @Inject(SERVICE_REPOSITORY)
     private readonly serviceRepository: IServiceRepositoryInterface,
     @Inject(PROMOTION_REPOSITORY)
-    private readonly promotionRepository: IPromotionRepository,
+    private readonly promotionRepository: IPromotionRepositoryInterface,
     @Inject(EXCEPTIONS)
     private readonly exceptionsService: IException,
     @Inject(MAILER_SERVICE)
     private readonly nodeMailerService: NodeMailerService,
+
+    private readonly createNotificationUseCase: CreateNotificationUseCase,
   ) {}
 
   async execute(
@@ -57,7 +62,7 @@ export class CreateAppointmentUseCase {
   ): Promise<AppointmentEntity> {
     this.checkIsSameUser(userId, appointment.providerId!)
 
-    await this.checkDuplicateBookingWindow(userId)
+    // await this.checkDuplicateBookingWindow(userId)
 
     const [provider, service] = await Promise.all([
       this.checkUserExists(appointment.providerId!, UserRoleEnum.Provider),
@@ -369,18 +374,33 @@ export class CreateAppointmentUseCase {
       })
     }
 
-    this.sendAppointmentNotification(
-      provider,
-      service,
-      startTime,
-      endTime,
-      appointment.duration,
-    ).catch(() => {
-      throw this.exceptionsService.internalServerErrorException({
-        type: 'NotificationError',
-        message: `Failed to send appointment notification`,
-      })
-    })
+    // this.sendAppointmentNotification(
+    //   provider,
+    //   service,
+    //   startTime,
+    //   endTime,
+    //   appointment.duration,
+    // ).catch(() => {
+    //   throw this.exceptionsService.internalServerErrorException({
+    //     type: 'NotificationError',
+    //     message: `Failed to send appointment notification`,
+    //   })
+    // })
+
+    // this.createNotificationUseCase
+    //   .execute({
+    //     receiverId: provider.id,
+    //     title: 'New Appointment Created',
+    //     message: `You have a new appointment`,
+    //     type: NotificationTypeEnum.AppointmentCreated,
+    //     data: { appointmentId: result.id },
+    //   })
+    //   .catch(() => {
+    //     throw this.exceptionsService.internalServerErrorException({
+    //       type: 'NotificationError',
+    //       message: `Failed to send appointment notification`,
+    //     })
+    //   })
 
     return result
   }

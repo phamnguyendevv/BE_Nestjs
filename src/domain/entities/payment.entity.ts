@@ -1,4 +1,3 @@
-
 export enum PaymentMethodEnum {
   Stripe = 1,
 }
@@ -8,6 +7,7 @@ export enum PaymentStatusEnum {
   Paid = 2,
   Cancelled = 3,
   Refunded = 4,
+  RefundPending = 5,
 }
 export class PaymentEntity {
   public readonly id!: number

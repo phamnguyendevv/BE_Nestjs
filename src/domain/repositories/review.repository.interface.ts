@@ -13,7 +13,7 @@ export interface ISearchReviewParams {
 
 export const REVIEW_REPOSITORY = 'REVIEW_REPOSITORY_INTERFACE'
 
-export interface IReviewRepository {
+export interface IReviewRepositoryInterface {
   findReviews(queryParams: ISearchReviewParams): Promise<{
     data: ReviewEntity[]
     pagination: IPaginationParams

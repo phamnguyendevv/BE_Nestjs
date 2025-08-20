@@ -6,14 +6,14 @@ import { Repository } from 'typeorm'
 import { PromotionEntity } from '@domain/entities/promotion.entity'
 import { IPaginationParams } from '@domain/entities/search.entity'
 import {
-  IPromotionRepository,
+  IPromotionRepositoryInterface,
   ISearchPromotionParams,
 } from '@domain/repositories/promotion.repository.interface'
 
 import { Promotion } from '../entities/promotion.entity'
 
 @Injectable()
-export class PromotionRepository implements IPromotionRepository {
+export class PromotionRepository implements IPromotionRepositoryInterface {
   constructor(
     @InjectRepository(Promotion)
     private readonly promotionRepository: Repository<Promotion>,

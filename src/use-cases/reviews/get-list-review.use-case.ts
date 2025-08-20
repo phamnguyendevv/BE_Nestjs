@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ReviewEntity } from '@domain/entities/review.entity'
 import { IPaginationParams } from '@domain/entities/search.entity'
 import {
-  IReviewRepository,
+  IReviewRepositoryInterface,
   ISearchReviewParams,
   REVIEW_REPOSITORY,
 } from '@domain/repositories/review.repository.interface'
@@ -12,7 +12,7 @@ import {
 export class GetListReviewUseCase {
   constructor(
     @Inject(REVIEW_REPOSITORY)
-    private readonly reviewRepository: IReviewRepository,
+    private readonly reviewRepository: IReviewRepositoryInterface,
   ) {}
 
   async execute(queryParams: ISearchReviewParams): Promise<{
