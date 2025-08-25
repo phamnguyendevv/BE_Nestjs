@@ -4,7 +4,6 @@ import {
   NotificationEntity,
   NotificationTypeEnum,
 } from '@domain/entities/notification.entity'
-import { Admin } from '@domain/entities/user.entity'
 import {
   INotificationRepositoryInterface,
   NOTIFICATION_REPOSITORY,
@@ -37,7 +36,7 @@ export class CreateNotificationUseCase {
     request: ICreateNotificationRequest,
   ): Promise<NotificationEntity> {
     const notification = await this.notificationRepository.createNotification({
-      senderId: request.senderId || Admin.Id,
+      senderId: request.senderId,
       receiverId: request.receiverId,
       title: request.title,
       message: request.message,

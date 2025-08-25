@@ -12,7 +12,7 @@ export class GetListProviderPresenter {
   pagination!: Pagination
 
   constructor(data: GetDetailProviderPresenter[], pagination: Pagination) {
-    this.data = data
+    this.data = data.map((item) => new GetDetailProviderPresenter(item))
     this.pagination = pagination
   }
 }

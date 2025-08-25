@@ -3,25 +3,16 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsNumber, IsOptional, IsString, Min } from 'class-validator'
 
-import { UserRoleEnum } from '@domain/entities/role.entity'
-import { UserStatusEnum } from '@domain/entities/status.entity'
-import { ISearchUsersParams } from '@domain/repositories/user.repository.interface'
+import { ProviderStatusEnum } from '@domain/entities/status.entity'
+import { ISearchProviderParams } from '@domain/repositories/provider-profile.respository.interface'
 
-export class GetListUsersDto implements ISearchUsersParams {
+export class GetListProviderDto implements ISearchProviderParams {
   @ApiProperty({
     required: true,
-    enum: UserStatusEnum,
+    enum: ProviderStatusEnum,
     description: '1: active , 2: inactive, 3: pending, 4: banned',
   })
-  status!: UserStatusEnum
-
-  @ApiProperty({
-    required: false,
-    enum: UserRoleEnum,
-    description: '1: Admin, 2: Provider, 3: Client, empty: All',
-  })
-  @Transform(({ value }: { value: string }) => parseInt(value))
-  role?: UserRoleEnum
+  status!: ProviderStatusEnum
 
   @ApiProperty({
     required: false,

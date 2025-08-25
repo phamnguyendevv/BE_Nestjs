@@ -1,10 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 
 import { UserRoleEnum } from '@domain/entities/role.entity'
-import {
-  ProviderStatusEnum,
-  UserStatusEnum,
-} from '@domain/entities/status.entity'
+import { UserStatusEnum } from '@domain/entities/status.entity'
+import { UserEntity } from '@domain/entities/user.entity'
 
 export class GetDetailProviderPresenter {
   @ApiProperty()
@@ -40,24 +38,7 @@ export class GetDetailProviderPresenter {
   @ApiProperty()
   commissionRate?: number
 
-  constructor(partial: {
-    id: number
-    username: string
-    email: string
-    phone?: string
-    avatarUrl?: string
-    avatarPublicId?: string
-    addressProvince?: string
-    addressDistrict?: string
-    addressWard?: string
-    addressDetail?: string
-    role: UserRoleEnum
-    status: UserStatusEnum
-    businessName?: string
-    businessDescription?: string
-    bankAccountInfo?: object
-    commissionRate?: number
-  }) {
+  constructor(partial: UserEntity) {
     this.id = partial.id
     this.username = partial.username
     this.email = partial.email
@@ -70,9 +51,9 @@ export class GetDetailProviderPresenter {
     this.addressDetail = partial.addressDetail
     this.role = partial.role
     this.status = partial.status
-    this.businessName = partial.businessName
-    this.businessDescription = partial.businessDescription
-    this.bankAccountInfo = partial.bankAccountInfo
-    this.commissionRate = partial.commissionRate
+    this.businessName = partial.providerProfile?.businessName
+    this.businessDescription = partial.providerProfile?.businessDescription
+    this.bankAccountInfo = partial.providerProfile?.bankAccountInfo
+    this.commissionRate = partial.providerProfile?.commissionRate
   }
 }

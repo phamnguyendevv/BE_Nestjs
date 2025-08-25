@@ -59,15 +59,18 @@ export class AppointmentsController {
     private readonly getListAppointmentByClientUseCase: GetListAppointmentByClientUseCase,
   ) {}
 
+  // ===== ADMIN OPERATIONS =====
+  // Admin can view, manage and delete all appointments in the system
+
   @Get('/admin/appointments/search')
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Search appointments',
-    description: 'Retrieve a list of appointments based on search criteria',
+    summary: 'Search appointments (Admin)',
+    description:
+      'Retrieve a list of appointments based on search criteria - Admin only',
   })
   @ApiExtraModels(GetListAppointmentPresenter)
   @ApiResponseType(GetListAppointmentPresenter, true)
-  @UseGuards(JwtAuthGuard)
   @CheckPolicies({ action: 'read', subject: 'Appointment' })
   async searchAppointments(
     @Query() searchAppointmentDto: GetListAppointmentDto,
@@ -76,16 +79,49 @@ export class AppointmentsController {
       await this.getListAppointmentUseCase.execute(searchAppointmentDto)
     return new GetListAppointmentPresenters(data, pagination)
   }
-  @Put('/provider/appointments/:id')
+
+  @Get('/admin/appointments/:id')
   @ApiBearerAuth()
   @CheckPolicies({ action: 'read', subject: 'Appointment' })
   @ApiOperation({
-    summary: 'Update appointment',
-    description: 'Update an existing appointment by ID',
+    summary: 'Get appointment by id (Admin)',
+    description: 'Retrieve appointment details by ID - Admin only',
   })
   @ApiResponseType(GetListAppointmentPresenter, true)
+  async getAdminAppointmentDetail(
+    @Param('id', ParseIntPipe) id: number,
+    @User('id') userId: number,
+  ) {
+    const appointments = await this.getDetailAppointmentUseCase.execute(
+      id,
+      userId,
+    )
+    return appointments
+  }
+
+  @Delete('/admin/appointments/:id')
+  @ApiBearerAuth()
+  @CheckPolicies({ action: 'delete', subject: 'Appointment' })
+  @ApiOperation({
+    summary: 'Delete appointment (Admin)',
+    description: 'Delete an existing appointment by ID - Admin only',
+  })
+  async deleteAdminAppointment(@Param('id', ParseIntPipe) id: number) {
+    await this.deleteAppointmentUseCase.execute(id)
+    return { message: 'Appointment deleted successfully' }
+  }
+
+  // ===== PROVIDER OPERATIONS =====
+  // Providers can view and update their own appointments
+  @Put('/provider/appointments/:id')
+  @ApiBearerAuth()
   @CheckPolicies({ action: 'update', subject: 'Appointment' })
-  async updateAppointment(
+  @ApiOperation({
+    summary: 'Update appointment (Provider)',
+    description: 'Update an existing appointment by ID - Provider only',
+  })
+  @ApiResponseType(GetListAppointmentPresenter, true)
+  async updateProviderAppointment(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAppointmentDto: UpdateAppointmentDto,
     @User('id') userId: number,
@@ -98,50 +134,17 @@ export class AppointmentsController {
     return updatedAppointment
   }
 
-  @Get('/admin/appointments/:id')
+  @Get('/provider/appointments')
   @ApiBearerAuth()
   @CheckPolicies({ action: 'read', subject: 'Appointment' })
   @ApiOperation({
-    summary: 'Get appointment by id',
-    description: 'Retrieve a list of appointment by id',
-  })
-  @ApiResponseType(GetListAppointmentPresenter, true)
-  @CheckPolicies({ action: 'read', subject: 'Appointment' })
-  async getDetailAppointments(
-    @Param('id', ParseIntPipe) id: number,
-    @User('id') userId: number,
-  ) {
-    const appointments = await this.getDetailAppointmentUseCase.execute(
-      id,
-      userId,
-    )
-    return appointments
-  }
-  @Delete('/admin/appointments/:id')
-  @ApiBearerAuth()
-  @CheckPolicies({ action: 'delete', subject: 'Appointment' })
-  @ApiOperation({
-    summary: 'Delete appointment',
-    description: 'Delete an existing appointment by ID',
-  })
-  @CheckPolicies({ action: 'delete', subject: 'Appointment' })
-  async deleteAppointment(@Param('id', ParseIntPipe) id: number) {
-    await this.deleteAppointmentUseCase.execute(id)
-    return { message: 'Appointment deleted successfully' }
-  }
-
-  @Get('/users/appointments')
-  @ApiBearerAuth()
-  @CheckPolicies({ action: 'read', subject: 'Appointment' })
-  @ApiOperation({
-    summary: 'Get list of appointments by user',
+    summary: 'Get list of appointments by provider',
     description:
-      'Retrieve a list of appointments for the authenticated user ( appointment status : ( 1: confirmed, 2: pending, 3: completed, 4: canceled )',
+      'Retrieve a list of appointments for the authenticated provider ( appointment status : ( 1: confirmed, 2: pending, 3: completed, 4: canceled )',
   })
   @ApiResponseType(GetListAppointmentPresenter, true)
-  @CheckPolicies({ action: 'read', subject: 'Appointment' })
-  async getListAppointmentsByUser(
-    @Query() getListAppointmentDto: GetListAppointmentByUserDto,
+  async getProviderAppointmentsList(
+    @Query() getListAppointmentDto: GetListAppointmentByProviderDto,
     @User('id') userId: number,
   ) {
     const { data, pagination } =
@@ -152,18 +155,20 @@ export class AppointmentsController {
     return new GetListAppointmentPresenters(data, pagination)
   }
 
-  @Get('/provider/appointments')
+  // ===== USER/CLIENT OPERATIONS =====
+  // Users can view their own appointments and create new ones
+
+  @Get('/users/appointments')
   @ApiBearerAuth()
   @CheckPolicies({ action: 'read', subject: 'Appointment' })
   @ApiOperation({
-    summary: 'Get list of appointments by provider',
+    summary: 'Get list of appointments by user',
     description:
-      'Retrieve a list of appointments for the authenticated provider ( appointment status : ( 1: confirmed, 2: pending, 3: completed, 4: canceled )',
+      'Retrieve a list of appointments for the authenticated user ( appointment status : ( 1: confirmed, 2: pending, 3: completed, 4: canceled )',
   })
   @ApiResponseType(GetListAppointmentPresenter, true)
-  @CheckPolicies({ action: 'read', subject: 'Appointment' })
-  async getListAppointmentsByProvider(
-    @Query() getListAppointmentDto: GetListAppointmentByProviderDto,
+  async getUserAppointmentsList(
+    @Query() getListAppointmentDto: GetListAppointmentByUserDto,
     @User('id') userId: number,
   ) {
     const { data, pagination } =
@@ -178,12 +183,11 @@ export class AppointmentsController {
   @ApiBearerAuth()
   @CheckPolicies({ action: 'create', subject: 'Appointment' })
   @ApiOperation({
-    summary: 'Create appointment',
-    description: 'Create a new appointment',
+    summary: 'Create appointment (User)',
+    description: 'Create a new appointment - User only',
   })
-  @ApiResponseType(GetListAppointmentPresenter, true)
-  @CheckPolicies({ action: 'create', subject: 'Appointment' })
-  async createAppointment(
+  @ApiResponseType(CreateAppointmentPresenter, true)
+  async createUserAppointment(
     @Body() createAppointmentDto: CreateAppointmentDto,
     @User('id') userId: number,
   ) {

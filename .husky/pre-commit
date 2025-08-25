@@ -42,10 +42,10 @@ lintCheckFiles=$(echo "$stagedFiles" | grep -E '\.ts$' | tr '\n' ' ')
 lintFixCmd="Run ${GREEN}npm run lint${RESET}, add changes and try commit again."
 run_check "Lint" "$lintCheckFiles" "$lintCheckFiles" "npx eslint $lintCheckFiles" "$lintFixCmd"
 
-# TypeScript check
-# sudo chown $(whoami):$(whoami) dist
-# tsCheckCmd="npx tsc --pretty --noEmit"
-tsFixCmd="Are you seriously trying to write that? Make the changes required above."
-run_check "TypeScript" "true" "All files" "$tsCheckCmd" "$tsFixCmd"
+# # TypeScript check
+# # sudo chown $(whoami):$(whoami) dist
+# # tsCheckCmd="npx tsc --pretty --noEmit"
+# tsFixCmd="Are you seriously trying to write that? Make the changes required above."
+# run_check "TypeScript" "true" "All files" "$tsCheckCmd" "$tsFixCmd"
 
-echo '\n🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'
+# echo '\n🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'

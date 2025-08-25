@@ -50,7 +50,6 @@ import { GetListServicesPresenter } from './presenters/get-list-services.present
 @ApiResponse({ status: 500, description: 'Internal error' })
 @ApiResponse({ status: 403, description: 'Forbidden access' })
 @ApiExtraModels(GetDetailServicePresenter, CreateServicePresenter)
-@UseGuards(JwtAuthGuard, PoliciesGuard)
 export class ServicesController {
   constructor(
     private readonly getListServicesUseCase: GetListServiceUseCase,
@@ -61,7 +60,6 @@ export class ServicesController {
   ) {}
 
   @Get('/users/services/search')
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all services',
     description: 'Retrieve a list of all services',
@@ -71,7 +69,6 @@ export class ServicesController {
     status: 200,
     description: 'List of services retrieved successfully',
   })
-  @CheckPolicies({ action: 'read', subject: 'Service' })
   async getListServices(
     @Query() queryParams: GetListServicesDto,
   ): Promise<GetListServicesPresenter> {
@@ -81,10 +78,8 @@ export class ServicesController {
   }
 
   @Get('/users/services/:id')
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get service by ID' })
   @ApiResponseType(GetDetailServicePresenter, false)
-  @CheckPolicies({ action: 'read', subject: 'Service' })
   async getServiceById(@Param('id', ParseIntPipe) id: number) {
     const service = await this.getDetailServiceUseCase.execute({
       id,
@@ -93,6 +88,7 @@ export class ServicesController {
   }
 
   @Delete('/provider/services/:id')
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a service' })
   @CheckPolicies({ action: 'delete', subject: 'Service' })
@@ -105,6 +101,7 @@ export class ServicesController {
   }
 
   @Post('/provider/services')
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new service' })
   @CheckPolicies({ action: 'create', subject: 'Service' })
@@ -121,6 +118,7 @@ export class ServicesController {
   }
 
   @Put('/provider/services/:id')
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an existing service' })
   @ApiOkResponse({ description: 'Service updated successfully' })
@@ -139,6 +137,7 @@ export class ServicesController {
   }
 
   @Get('/provider/services')
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all services for provider',

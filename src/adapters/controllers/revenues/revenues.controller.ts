@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Res, UseGuards } from '@nestjs/common'
+import { Controller, Get, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiExtraModels, ApiOperation } from '@nestjs/swagger'
 
 import { GetDailyRevenueUseCase } from '@use-cases/revenue/get-daily-revenue.use-case'

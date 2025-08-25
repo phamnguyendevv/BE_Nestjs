@@ -2,13 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { DataSource } from 'typeorm'
 
-import { NotificationTypeEnum } from '@domain/entities/notification.entity'
 import { UserRoleEnum } from '@domain/entities/role.entity'
 import {
   ProviderStatusEnum,
   UserStatusEnum,
 } from '@domain/entities/status.entity'
-import { Admin, UserEntity } from '@domain/entities/user.entity'
+import { UserEntity } from '@domain/entities/user.entity'
 import { EXCEPTIONS, IException } from '@domain/exceptions/exceptions.interface'
 import {
   IProviderProfileRepositoryInterface,
