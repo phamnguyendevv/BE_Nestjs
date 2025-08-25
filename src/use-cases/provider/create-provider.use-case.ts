@@ -45,7 +45,7 @@ export class CreateProviderUseCase {
 
   async execute(providerProfile: RegisterProviderDto): Promise<boolean> {
     await this.checkUserExistence(providerProfile.email)
-    const user = await this.createProviderWithProfile(providerProfile)
+    await this.createProviderWithProfile(providerProfile)
     // await this.createNotificationUseCase.execute({
     //   senderId: user.id,
     //   receiverId: Admin.Id,
